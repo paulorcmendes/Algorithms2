@@ -1,12 +1,12 @@
 #include <stdio.h>
 
 int main(){
-    int n, m, matriz[500][500], i, j, l, u, q;
-
+    int n, m, matriz[500][500], i, j, l, u, q, esq, dir, meio, maior, cur;
+    //FILE *output;
+    //output = fopen("output.txt", "w");
     scanf("%d %d", &n, &m);
     while(n!=0 || m!=0){
-        if(n==0)
-        for(i = 0; i<m; i++){
+        for(i = 0; i<n; i++){
             for(j = 0; j<m; j++){
                 scanf("%d", &matriz[i][j]);
             }
@@ -14,12 +14,37 @@ int main(){
         scanf("%d", &q);
         while(q--){
             scanf("%d %d", &l, &u);
+            maior = 0;
+            for(i = 0; i<n; i++){
+                esq = 0;
+                dir = m-1;
+                while(esq <= dir){
+                    meio = (esq+dir)/2;
 
+                    if(matriz[i][meio] == l) break;
+                    if(l > matriz[i][meio]){
+                        esq = meio+1;
+                    }else{
+                        dir = meio-1;
+                    }
+                }
+                if(matriz[i][meio] < l)meio++;
+                if(meio >= m) meio = -1;
+                //printf(">>>>>>>%d: meio: ", meio);
+                //system("pause");
+                cur = 0;
+                while(meio!=-1 && cur+i<n && cur+meio<m && matriz[cur+i][cur+meio] <= u) cur++;
+
+                if(cur > maior) maior = cur;
+            }
+            fprintf( output, "%d\n", maior);
+            printf("%d\n", maior);
         }
+        fprintf(output,"-\n");
         printf("-\n");
         scanf("%d %d", &n, &m);
     }
-
+    //fclose(output);
 
     return 0;
 }
