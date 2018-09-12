@@ -2,7 +2,6 @@
 
 int main(){
     int n, m, matriz[500][500], i, j, l, u, q, esq, dir, meio, maior, cur;
-
     scanf("%d %d", &n, &m);
     while(n!=0 || m!=0){
         for(i = 0; i<n; i++){
@@ -20,7 +19,10 @@ int main(){
                 while(esq <= dir){
                     meio = (esq+dir)/2;
 
-                    if(matriz[i][meio] == l) break;
+                    if(matriz[i][meio] == l){
+                        while(meio-1>=0 && matriz[i][meio-1] == l) meio--;
+                        break;
+                    }
                     if(l > matriz[i][meio]){
                         esq = meio+1;
                     }else{
@@ -30,7 +32,7 @@ int main(){
                 if(matriz[i][meio] < l)meio++;
                 if(meio >= m) meio = -1;
                 cur = 0;
-                while(meio!=-1 && cur+i<n && cur+meio<m && matriz[cur+i][cur+meio] <= u) cur++;
+                while(meio>-1 && cur+i<n && cur+meio<m && matriz[cur+i][cur+meio] <= u) cur++;
 
                 if(cur > maior) maior = cur;
             }
